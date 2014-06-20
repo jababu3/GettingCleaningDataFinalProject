@@ -1,0 +1,90 @@
+Codebook for run_analysis.r
+
+This data was taken from the UCI Machine Learning Repository via the Coursera Web site.  The UCI title is:  "Human Activity Recognition Using Smartphones Data Set".  The URL is :  https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+Two text files from the original dataset are included with this file as references:  README.txt and features_info.txt
+
+//-----------------------
+Study Design
+
+The dataset contains motion activity from 30 volunteers, ages 19-48 recorded with a smartphone.  Accelerometer and gyroscope data was collected and used to classify six activities:
+* walking
+* walking upstairs
+* walking downstairs
+* sitting 
+* standing
+* laying
+
+There are a total of 10,299 samples, and 561 variables.
+
+
+The following is a description of the data from the UCI website:
+Data Set Information:
+
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. 
+//-----------------------
+Running the Script
+
+The run_analysis.r script will need to be moved to the root folder of the dataset.  This folder contains separate directories for the test and train data ("test" and "train") as well as several .txt files that describe the dataset.  The *.txt files are:
+* features.txt
+* features_info.txt
+* README.txt
+* activity_labels.txt
+
+The script will create two files:  newtidy.txt and tidyset.txt, which correspond to the data frames newtidy and tidyset, which will remain in memory when the script is run.  The data frames/text files are created by merging the following files from the test and train directories:
+* X_train.txt
+* Y_train.txt
+* subject_train.txt
+
+Once the files are merged, run_analysis subsets the mean and standard deviation from X_train values by using regular expressions.  Two new columns are added to make the final tidyset data frame/text file.  The first, subject, was made by appending the merged subject_train file to the newly merged data frame.  The second, activity, was made by mapping the numbers from Y_train into the named activites from the activiy_lables.txt file (i.e. WALKING, SITTING) and appending to the X_train dataframe.
+
+The names of the columns were created by taking the features.txt file and manipulating the values based on a few principles, the names were mapped to the propercolumns of the X_train dataframe:
+* no capital letters
+* no spaces 
+* no paranthesis
+
+To create the second dataset/text file, newtidy, only the means from the tidyset were used.  For each individual variable was cross-tabulated by subject and activity and condensed to the mean, and the results were appended to the new data frame/text file.  This produces a table with a single value (mean) for each subject and activity across all the measured variables.
+
+
+
+//-----------------------
+Code Book
+Many of the variables included in this analysis are variants of the original variables from the raw data set.  The files "features_info.txt" and "features.txt." contain detailed information and are included in this repository for convience.  They are the same files that are included in the original data set.
+
+Of the 561 variables included in the original study, 79 were included in the tidy data set.  This includes mean aned standard deviations for the following variables, where ** represents mean and std:
+
+tbodyacc**x
+tbodyacc**y
+tbodyacc**z
+tgravityaacc**x
+tgravityacc**y
+trgravityacc**z
+tbodyjerk**x
+tbodyjerk**y
+tbodygyro**x
+tbodygyro**y
+tbodygyro**z
+tbodygyrojerk**
+tbodyaccmag**
+tbodyaccjerkmag**
+tbodygyromag**
+fbodyacc**x
+fbodyacc**y
+fbodyacc**z
+fbodyaccjerk**x
+fbodyaccjerk**y
+fobdyaccjerk**z
+fbodygyro**x
+fbodygyro**y
+fbodygyro**z
+fbodyaccmag**
+fbodybodyaccjerkmag**
+fbodybodygyromag**
+fbodybodygyrojerkmag**
+
+THe file features_infot.txt included more details related to the variables.
+
+
+
